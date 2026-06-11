@@ -7,7 +7,7 @@ Core behavior:
 - Samples `G` trajectories per triple.
 - Uses the same iterative context shape as inference: previous search results are compacted into `<result_summary>`, and only the latest retrieval is kept as full `<result>`.
 - Computes loss only on model-generated `<think>`, `<search>`, and `<answer>` tokens. Retrieval-provided `<result>` and `<result_summary>` text is only conditioning context and is masked out by construction.
-- Applies the requested trajectory reward, group-relative advantage, KL penalty against the Stage 1 SFT reference model, reward clipping, identical-reward group skipping, gradient accumulation, and mixed precision.
+- Applies the requested trajectory reward, group-relative advantage, KL penalty against the Stage 1 SFT reference model, identical-reward group skipping, gradient accumulation, and mixed precision.
 - Trains with LoRA by default. Use `--no_lora` only when full fine-tuning is intended.
 - Logs accuracy, UNKNOWN rate, false UNKNOWN rate, true to false rate, false to true rate, average search count, forced-final invalid count, false recall, and true recall.
 
@@ -16,11 +16,10 @@ Core behavior:
 Reward is computed once at the end of each trajectory:
 
 ```text
-R = R_correct + R_format + R_evidence + R_search
+R = R_correct + R_evidence + R_search
 ```
 
 - `R_correct`: `+1.0` if the final prediction matches the label, `0.0` if it is wrong, `-0.5` if it is `unknown`.
-- `R_format`: `+0.2` if the final answer format is valid, otherwise `-0.5`.
 - `R_evidence`: `+0.5` if the answer is correct and any retrieved document matches `gold_evidence`; otherwise `0.0`. This is applied for both positive and negative examples because the original positive gold document can also serve as contradiction evidence for negative variants.
 - `R_search`: search cost after the first search only, `max(0, N_search - 1) * -0.05`.
 
@@ -35,8 +34,7 @@ scripts/train_stage2_search_grpo.sh \
   --train_batch_size 1 \
   --gradient_accumulation_steps 8 \
   --lora_r 16 \
-  --lora_alpha 32 \
-  --auto_adjust_search_cost
+  --lora_alpha 32
 ```
 
 To continue from a Stage 1 LoRA adapter and use the same adapter as the frozen KL reference:

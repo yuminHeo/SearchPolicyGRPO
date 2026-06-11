@@ -414,6 +414,7 @@ def compute_reward(
     reward_clip_min: float,
     reward_clip_max: float,
 ) -> tuple[float, dict[str, Any]]:
+    del reward_clip_min, reward_clip_max
     label = state.example.label
     pred = extract_answer_label(state.trajectory)
     state.prediction = pred
@@ -426,35 +427,32 @@ def compute_reward(
     else:
         r_correct = 0.0
 
-    r_format = 0.2 if valid_format else -0.5
-    r_search = -float(search_cost_coef) * max(0, state.search_count - 1)
-
     prediction_correct = pred == label and pred in {"true", "false"}
     r_evidence = 0.5 if state.gold_evidence_hits and prediction_correct else 0.0
+    charged_search_count = max(0, state.search_count - 1)
+    r_search = -float(search_cost_coef) * charged_search_count
 
-    raw = r_correct + r_format + r_evidence + r_search
-    clipped = max(reward_clip_min, min(reward_clip_max, raw))
+    raw = r_correct + r_evidence + r_search
     components = {
         "reward_raw": raw,
-        "reward": clipped,
+        "reward": raw,
         "R_correct": r_correct,
-        "R_format": r_format,
         "R_search": r_search,
         "R_evidence": r_evidence,
         "prediction": pred,
         "label": label,
         "answer_format_valid": valid_format,
         "search_count": state.search_count,
-        "charged_search_count": max(0, state.search_count - 1),
+        "charged_search_count": charged_search_count,
         "gold_evidence_retrieved": bool(state.gold_evidence_hits),
         "forced_final": state.forced_final,
         "forced_final_invalid": state.forced_final and not valid_format,
         "search_cost_coef": search_cost_coef,
     }
     state.forced_final_invalid = bool(components["forced_final_invalid"])
-    state.reward = clipped
+    state.reward = raw
     state.reward_components = components
-    return clipped, components
+    return raw, components
 
 
 def aggregate_metrics(states: list[Trajectory]) -> dict[str, float]:
@@ -974,14 +972,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--synced_gpus", action="store_true")
     parser.add_argument("--beta_kl", type=float, default=0.001)
     parser.add_argument("--advantage_epsilon", type=float, default=1e-6)
-    parser.add_argument("--reward_clip_min", type=float, default=-1.0)
-    parser.add_argument("--reward_clip_max", type=float, default=1.5)
+    parser.add_argument("--reward_clip_min", type=float, default=-10.0, help="Deprecated; reward is not clipped.")
+    parser.add_argument("--reward_clip_max", type=float, default=10.0, help="Deprecated; reward is not clipped.")
     parser.add_argument("--search_cost_coef", type=float, default=0.05)
     parser.add_argument("--search_cost_coef_max", type=float, default=0.05)
     parser.add_argument("--search_cost_adjust_step", type=float, default=0.002)
     parser.add_argument("--target_unknown_rate", type=float, default=0.05)
     parser.add_argument("--unknown_rate_tolerance", type=float, default=0.02)
-    parser.add_argument("--auto_adjust_search_cost", action="store_true")
+    parser.add_argument("--auto_adjust_search_cost", action="store_true", help="Deprecated; search cost stays fixed.")
     parser.add_argument("--logprob_micro_batch_size", type=int, default=1)
     parser.add_argument("--normalize_logprob_by_tokens", action="store_true")
     parser.add_argument("--logging_steps", type=int, default=1)
@@ -1088,7 +1086,7 @@ def main() -> None:
         step=args.search_cost_adjust_step,
         target_unknown_rate=args.target_unknown_rate,
         tolerance=args.unknown_rate_tolerance,
-        enabled=args.auto_adjust_search_cost,
+        enabled=False,
     )
 
     global_step = 0

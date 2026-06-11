@@ -93,6 +93,5 @@ scripts/train_stage2_search_grpo.sh \
   --lora_r 16 \
   --lora_alpha 32 \
   --lora_dropout 0.05 \
-  --auto_adjust_search_cost \
   --lora_adapter_path /root/sft-selected \
   --ref_lora_adapter_path /root/sft-selected
