@@ -58,7 +58,7 @@ Override them with `TRAIN_FILE=...`, `EVAL_FILE=...`, and `SEARCH_URL=...`.
 
 ## BGE Retriever
 
-`run.sh` starts a BGE retriever by default using the existing TrajRL index files:
+`run.sh` starts a standalone SearchPolicyGRPO BGE retriever by default using the existing index files:
 
 ```bash
 /data/YM/ExpCodes/TrajRL/outputs/indexes/trex_renlg_bge.npy
@@ -83,3 +83,12 @@ If a retriever is already running:
 ```bash
 AUTO_START_RETRIEVER=0 SEARCH_URL=http://localhost:8090 ./run.sh
 ```
+
+The retriever implementation is local to this project:
+
+```bash
+bge_retriever_server.py
+scripts/launch_bge_retriever.sh
+```
+
+It does not import or execute TrajRL code. The default corpus/index paths point at the already-built files under `/data/YM/ExpCodes/TrajRL`, but those are ordinary data files and can be overridden with environment variables.
