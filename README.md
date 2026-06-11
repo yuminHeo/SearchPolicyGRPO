@@ -130,3 +130,51 @@ scripts/launch_bge_retriever.sh
 ```
 
 It does not import or execute TrajRL code. The default corpus/index paths point at the already-built files under `/data/YM/ExpCodes/TrajRL`, but those are ordinary data files and can be overridden with environment variables.
+
+## VERL Mode
+
+The project also contains a TrajRL-free VERL path:
+
+```bash
+run_verl.sh
+```
+
+What this adds:
+
+- `src/verl/`: a local copy of the VERL fork needed for `vllm_with_tool`, `loss_mask`, LoRA loading, and GRPO.
+- `verl_search_policy/prepare_verl_data.py`: JSON/JSONL to VERL parquet conversion without importing `trajrl.*`.
+- `verl_search_policy/reward.py`: the current SearchPolicyGRPO reward:
+  `R_correct + R_evidence + R_search`.
+- `scripts/train_verl_search_policy_grpo.sh`: launches `python -m verl.trainer.main_ppo` with local reward and local rollout.
+
+Default VERL flow:
+
+```bash
+# Starts the local BGE retriever, prepares parquet, then launches VERL GRPO.
+./run_verl.sh
+```
+
+Useful overrides:
+
+```bash
+TRAIN_FILE=data/trex_grpo_train_6000_no_unseen_pred.jsonl \
+VAL_FILE= \
+AUTO_PREPARE_DATA=1 \
+GPU_DEVICES=0,1,2,3 \
+NUM_GPUS=4 \
+ROLLOUT_N=4 \
+MAX_TURNS=4 \
+LORA_ADAPTER_PATH=/root/sft-selected \
+LOGGER='console,wandb' \
+./run_verl.sh
+```
+
+The VERL rollout calls the SearchPolicyGRPO BGE retriever directly through
+`actor_rollout_ref.rollout.search_url`; it does not use TrajRL's sandbox server.
+Retrieved `<result>` and compacted `<result_summary>` text are assigned
+`loss_mask=0`, so only model-generated `<think>`, `<search>`, and `<answer>`
+tokens contribute to the policy loss.
+
+Before running VERL mode, install the extra runtime dependencies from
+`requirements.txt`, including `ray`, `datasets`, `pandas`, `pyarrow`, and a
+CUDA/PyTorch-compatible `vllm` build.
