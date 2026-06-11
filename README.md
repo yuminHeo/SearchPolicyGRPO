@@ -51,5 +51,35 @@ Defaults assume this directory lives next to TrajRL:
 - train data: `../TrajRL/dataset/trex_renlg/train.jsonl`
 - eval data: `../TrajRL/dataset/trex_renlg/dev.jsonl`
 - retriever: `http://localhost:8090`
+- BGE corpus: `/data/YM/ExpCodes/TrajRL/dataset/trex_renlg/corpus.jsonl`
+- BGE index dir: `/data/YM/ExpCodes/TrajRL/outputs/indexes`
 
 Override them with `TRAIN_FILE=...`, `EVAL_FILE=...`, and `SEARCH_URL=...`.
+
+## BGE Retriever
+
+`run.sh` starts a BGE retriever by default using the existing TrajRL index files:
+
+```bash
+/data/YM/ExpCodes/TrajRL/outputs/indexes/trex_renlg_bge.npy
+/data/YM/ExpCodes/TrajRL/outputs/indexes/trex_renlg_bge_ivf4096.faiss
+```
+
+Common overrides:
+
+```bash
+TRAJRL_DIR=/data/YM/ExpCodes/TrajRL \
+INDEX_DIR=/data/YM/ExpCodes/TrajRL/outputs/indexes \
+CORPUS=/data/YM/ExpCodes/TrajRL/dataset/trex_renlg/corpus.jsonl \
+EMBEDDING_CACHE=/path/to/trex_renlg_bge.npy \
+INDEX_CACHE=/path/to/trex_renlg_bge_ivf4096.faiss \
+RETRIEVER_PORT=8090 \
+AUTO_START_RETRIEVER=1 \
+./run.sh
+```
+
+If a retriever is already running:
+
+```bash
+AUTO_START_RETRIEVER=0 SEARCH_URL=http://localhost:8090 ./run.sh
+```
