@@ -279,5 +279,5 @@ class FSDPVLLMShardingManager(BaseShardingManager):
                         for name, param in updated_params.items()))
         else:
             loaded_params = model.load_weights(
-                ((name, param.full_tensor() if world_size != 1 else param) for name, param in updated_params.items()))
+                ((name, _to_full_tensor(param) if world_size != 1 else param) for name, param in updated_params.items()))
         logger.info(f"vLLM load weights, loaded_params: {len(loaded_params)}")

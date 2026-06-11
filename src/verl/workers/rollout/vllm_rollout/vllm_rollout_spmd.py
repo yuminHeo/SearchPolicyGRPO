@@ -426,7 +426,7 @@ class vLLMRolloutWithTool(vLLMRollout):
                 all_results[index] = future.result()
 
         # reorganize results to original structure
-        results_list = [[None for _ in range(len(tool_calls_list[i]))] for i, _ in enumerate(env_list)]
+        results_list = [[None for _ in tool_calls] for tool_calls in tool_calls_list]
         for (env_idx, call_idx), result in zip(task_indices, all_results):
             results_list[env_idx][call_idx] = result
 
@@ -511,7 +511,6 @@ class vLLMRolloutWithTool(vLLMRollout):
                 active_inputs = [curr_inputs[i] for i in active_indices]
                 active_max_tokens = [curr_max_tokens[i] for i in active_indices]
                 
-                print('step & has prefix_loss_mask:', 'prefix_loss_mask' in prompts.batch, step)
 
                 if step != 0 or 'prefix_loss_mask' not in prompts.batch:
                     with self.update_sampling_params(
@@ -599,8 +598,6 @@ class vLLMRolloutWithTool(vLLMRollout):
                         call_indices = broadcast_data['call_indices']
                         tool_responses_list = broadcast_data['tool_responses_list']
                         
-                        print('tool call list 2: ', tool_calls_list)
-                        print('curr input length 2: ', len(curr_inputs))
 
                         for idx, tool_calls, tool_responses in zip(call_indices, tool_calls_list, tool_responses_list):
                             tool_response_str = ''
@@ -747,14 +744,15 @@ class vLLMRolloutWithTool(vLLMRollout):
                     input_ids_list.append(ori_input_ids[idx])
                     attention_mask_list.append(ori_attention_mask[idx])
                     position_ids_list.append(ori_position_ids[idx])
-                    index.append(idx)       
-                
+                    index.append(idx)
+
+            if prefix_input_ids_list:
                 prefix_input_ids = torch.stack(prefix_input_ids_list, dim=0)
                 prefix_loss_mask = torch.stack(prefix_loss_mask_list, dim=0)
                 input_ids = torch.stack(input_ids_list, dim=0)
                 attention_mask = torch.stack(attention_mask_list, dim=0)
                 position_ids = torch.stack(position_ids_list, dim=0)
-                
+
                 batch = TensorDict({
                     'input_ids': input_ids,
                     'attention_mask': attention_mask,
@@ -762,7 +760,7 @@ class vLLMRolloutWithTool(vLLMRollout):
                     'prefix_input_ids': prefix_input_ids,
                     'prefix_loss_mask': prefix_loss_mask,
                 }, batch_size=input_ids.size(0))
-                
+
                 new_prompts = DataProto(batch=batch)
                 new_prompts.non_tensor_batch = prompts.non_tensor_batch
                 new_prompts.meta_info = prompts.meta_info

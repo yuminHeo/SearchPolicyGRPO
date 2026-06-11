@@ -6,7 +6,7 @@ cd "${ROOT_DIR}"
 
 export PYTHONPATH="${ROOT_DIR}:${ROOT_DIR}/src:${PYTHONPATH:-}"
 
-TRAIN_FILE="${TRAIN_FILE:-data/trex_grpo_train_6000_no_unseen_pred.jsonl}"
+TRAIN_FILE="${TRAIN_FILE:-${ROOT_DIR}/data/trex_grpo_train_6000_no_unseen_pred.jsonl}"
 VAL_FILE="${VAL_FILE:-}"
 SEARCH_URL="${SEARCH_URL:-http://localhost:8090}"
 OUT_DIR="${OUT_DIR:-outputs/verl_data/search_policy}"

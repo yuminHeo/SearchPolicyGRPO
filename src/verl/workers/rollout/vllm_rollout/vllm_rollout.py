@@ -347,7 +347,7 @@ class vLLMRolloutWithTool(vLLMRollout):
             for future in as_completed(future_to_index):
                 all_results[future_to_index[future]] = future.result()
 
-        results_list = [[None for _ in range(len(tool_calls_list[i]))] for i, _ in enumerate(env_list)]
+        results_list = [[None for _ in tool_calls] for tool_calls in tool_calls_list]
         for (env_idx, call_idx), result in zip(task_indices, all_results):
             results_list[env_idx][call_idx] = result
         return results_list

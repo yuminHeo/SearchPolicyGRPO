@@ -35,6 +35,7 @@ Common options:
   --train-files PATH          VERL train parquet path.
   --test-files PATH           VERL validation parquet path.
   --actor-model-path PATH     Base actor model.
+  --lora-adapter-path PATH    Trainable LoRA adapter to continue with.
   --save-path PATH            Output directory.
   --search-url URL            SearchPolicyGRPO BGE retriever URL.
 EOF
@@ -52,7 +53,7 @@ TRAIN_BATCH_SIZE="${TRAIN_BATCH_SIZE:-64}"
 PPO_MINI_BATCH_SIZE="${PPO_MINI_BATCH_SIZE:-16}"
 ROLLOUT_N="${ROLLOUT_N:-4}"
 ROLLOUT_TP="${ROLLOUT_TP:-1}"
-ROLLOUT_GPU_UTIL="${ROLLOUT_GPU_UTIL:-0.8}"
+ROLLOUT_GPU_UTIL="${ROLLOUT_GPU_UTIL:-0.55}"
 ROLLOUT_MAX_NUM_BATCHED_TOKENS="${ROLLOUT_MAX_NUM_BATCHED_TOKENS:-8192}"
 ROLLOUT_MAX_NUM_SEQS="${ROLLOUT_MAX_NUM_SEQS:-128}"
 ROLLOUT_ENABLE_CHUNKED_PREFILL="${ROLLOUT_ENABLE_CHUNKED_PREFILL:-True}"
@@ -67,13 +68,13 @@ VAL_BEFORE_TRAIN="${VAL_BEFORE_TRAIN:-False}"
 LR="${LR:-1e-6}"
 USE_TORCH_COMPILE="${USE_TORCH_COMPILE:-False}"
 DISABLE_TORCHDYNAMO="${DISABLE_TORCHDYNAMO:-1}"
-ROLLOUT_DTYPE="${ROLLOUT_DTYPE:-float16}"
+ROLLOUT_DTYPE="${ROLLOUT_DTYPE:-bfloat16}"
 ROLLOUT_ENFORCE_EAGER="${ROLLOUT_ENFORCE_EAGER:-True}"
 ROLLOUT_TEMPERATURE="${ROLLOUT_TEMPERATURE:-1.0}"
 ROLLOUT_TOP_P="${ROLLOUT_TOP_P:-0.95}"
 ROLLOUT_TOP_K="${ROLLOUT_TOP_K:-50}"
-ACTOR_FORWARD_DTYPE="${ACTOR_FORWARD_DTYPE:-fp16}"
-FSDP_PARAM_DTYPE="${FSDP_PARAM_DTYPE:-fp16}"
+ACTOR_FORWARD_DTYPE="${ACTOR_FORWARD_DTYPE:-bf16}"
+FSDP_PARAM_DTYPE="${FSDP_PARAM_DTYPE:-bf16}"
 FSDP_REDUCE_DTYPE="${FSDP_REDUCE_DTYPE:-fp32}"
 FSDP_BUFFER_DTYPE="${FSDP_BUFFER_DTYPE:-fp32}"
 MAX_PROMPT_LENGTH="${MAX_PROMPT_LENGTH:-4096}"
@@ -83,10 +84,10 @@ ROLLOUT_NAME="${ROLLOUT_NAME:-vllm_with_tool}"
 REWARD_MANAGER="${REWARD_MANAGER:-naive}"
 LOGGER="${LOGGER:-console}"
 WANDB_API_KEY="${WANDB_API_KEY:-}"
-LORA_ADAPTER_PATH="${LORA_ADAPTER_PATH:-}"
+LORA_ADAPTER_PATH="${LORA_ADAPTER_PATH:-/workspace/sft}"
 TOP_N="${TOP_N:-5}"
-MAX_RESULT_CHARS="${MAX_RESULT_CHARS:-6000}"
-RESULT_SUMMARY_MODE="${RESULT_SUMMARY_MODE:-truncate}"
+MAX_RESULT_CHARS="${MAX_RESULT_CHARS:-2000}"
+RESULT_SUMMARY_MODE="${RESULT_SUMMARY_MODE:-llm}"
 RESULT_SUMMARY_CHARS="${RESULT_SUMMARY_CHARS:-480}"
 GPU_PARALLEL_OVERRIDE=0
 
@@ -120,6 +121,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --save-path)
       SAVE_PATH="$2"
+      shift 2
+      ;;
+    --lora-adapter-path)
+      LORA_ADAPTER_PATH="$2"
       shift 2
       ;;
     --search-url)
@@ -173,6 +178,11 @@ case "${DISABLE_TORCHDYNAMO}" in
     ;;
 esac
 
+if [[ -n "${LORA_ADAPTER_PATH}" && "${LORA_ADAPTER_PATH}" != "None" && "${LORA_ADAPTER_PATH}" != "null" && ! -f "${LORA_ADAPTER_PATH}/adapter_config.json" ]]; then
+  echo "[train_verl] LoRA adapter_config.json not found under LORA_ADAPTER_PATH=${LORA_ADAPTER_PATH}" >&2
+  exit 1
+fi
+
 mkdir -p "${SAVE_PATH}/rollout" "${SAVE_PATH}/checkpoint"
 
 if [[ -n "${WANDB_API_KEY}" && "${WANDB_API_KEY}" != "None" ]]; then
@@ -184,7 +194,9 @@ echo "[train_verl] PYTHONPATH=${PYTHONPATH}"
 echo "[train_verl] train=${TRAIN_FILES}"
 echo "[train_verl] val=${TEST_FILES}"
 echo "[train_verl] search_url=${SEARCH_URL}"
-echo "[train_verl] rollout=${ROLLOUT_NAME} n=${ROLLOUT_N} turns=${MAX_TURNS}"
+echo "[train_verl] actor_model=${ACTOR_MODEL_PATH}"
+echo "[train_verl] lora_adapter=${LORA_ADAPTER_PATH}"
+echo "[train_verl] rollout=${ROLLOUT_NAME} n=${ROLLOUT_N} turns=${MAX_TURNS} gpu_util=${ROLLOUT_GPU_UTIL}"
 echo "[train_verl] save=${SAVE_PATH}"
 
 python -m verl.trainer.main_ppo \

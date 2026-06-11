@@ -157,14 +157,15 @@ Default VERL flow:
 Useful overrides:
 
 ```bash
-TRAIN_FILE=data/trex_grpo_train_6000_no_unseen_pred.jsonl \
+TRAIN_FILE=/workspace/SearchPolicyGRPO/data/trex_grpo_train_6000_no_unseen_pred.jsonl \
 VAL_FILE= \
 AUTO_PREPARE_DATA=1 \
+ACTOR_MODEL_PATH=Qwen/Qwen2.5-7B-Instruct \
+LORA_ADAPTER_PATH=/workspace/sft \
 GPU_DEVICES=0,1,2,3 \
 NUM_GPUS=4 \
 ROLLOUT_N=4 \
 MAX_TURNS=4 \
-LORA_ADAPTER_PATH=/root/sft-selected \
 LOGGER='console,wandb' \
 ./run_verl.sh
 ```

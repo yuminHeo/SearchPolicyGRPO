@@ -199,10 +199,14 @@ class ActorRolloutRefWorker(Worker):
             else:
                 actor_module_class = AutoModelForCausalLM
 
+            attn_implementation = 'flash_attention_2' if torch_dtype in (torch.float16, torch.bfloat16) else 'sdpa'
+            if self.rank == 0 and attn_implementation != 'flash_attention_2':
+                print(f"Using attn_implementation={attn_implementation} for torch_dtype={torch_dtype}")
+
             actor_module = actor_module_class.from_pretrained(pretrained_model_name_or_path=local_path,
                                                               torch_dtype=torch_dtype,
                                                               config=actor_model_config,
-                                                              attn_implementation='flash_attention_2',
+                                                              attn_implementation=attn_implementation,
                                                               trust_remote_code=trust_remote_code)
 
             if use_lora:

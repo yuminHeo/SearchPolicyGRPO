@@ -249,9 +249,9 @@ class RLHFDataset(Dataset):
             if row_dict['data_source'] == 're_call':
                 assert self.config.get('search_url', None) is not None, "search_url for re_call dataset is not set"
                 row_dict['env'] = row_dict['extra_info']['env'].replace('<search-url-placeholder>', self.config.get('search_url', ''))
-                row_dict['ground_truth'] = row_dict['reward_model']['ground_truth']
             else:
                 row_dict['env'] = row_dict['extra_info']['env']
+            row_dict['ground_truth'] = row_dict['reward_model']['ground_truth']
 
         return row_dict
 
