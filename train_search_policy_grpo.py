@@ -19,12 +19,30 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, get_linear_schedule_with_warmup
 
+
+def disable_deepspeed_nvtx() -> None:
+    """Disable DeepSpeed NVTX instrumentation when the installed nvtx package is incompatible.
+
+    Some environments ship an nvtx build whose `push_range` signature does not accept the
+    keyword arguments DeepSpeed passes through its accelerator wrapper. Turning off NVTX
+    instrumentation preserves training behavior while avoiding the crash.
+    """
+
+    try:
+        import deepspeed.utils.nvtx as ds_nvtx
+    except Exception:
+        return
+    ds_nvtx.enable_nvtx = False
+
 try:
     from accelerate import Accelerator, DeepSpeedPlugin
 except ImportError as exc:
     raise RuntimeError(
         "stage2_search_grpo requires accelerate. Install accelerate and, for ZeRO training, deepspeed."
     ) from exc
+
+
+disable_deepspeed_nvtx()
 
 
 TRUE_SET = {"true", "1", "yes", "correct", "supports", "supported"}
@@ -1014,7 +1032,10 @@ def main() -> None:
         trust_remote_code=args.trust_remote_code,
     )
     if args.gradient_checkpointing:
-        model.gradient_checkpointing_enable()
+        try:
+            model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+        except TypeError:
+            model.gradient_checkpointing_enable()
         model.config.use_cache = False
     model = apply_policy_lora(model, args)
     if args.gradient_checkpointing and hasattr(model, "enable_input_require_grads"):

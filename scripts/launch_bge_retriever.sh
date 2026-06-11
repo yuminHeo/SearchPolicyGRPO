@@ -2,10 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="${ROOT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-TRAJRL_DIR="${TRAJRL_DIR:-/data/YM/ExpCodes/TrajRL}"
-INDEX_DIR="${INDEX_DIR:-${TRAJRL_DIR}/outputs/indexes}"
+INDEX_DIR="${INDEX_DIR:-data/indexes}"
 
-CORPUS="${CORPUS:-${TRAJRL_DIR}/dataset/trex_renlg/corpus.jsonl}"
+CORPUS="${CORPUS:-${INDEX_DIR}/corpus.jsonl}"
 MODEL_NAME="${MODEL_NAME:-${BGE_MODEL_NAME:-BAAI/bge-base-en-v1.5}}"
 EMBEDDING_CACHE="${EMBEDDING_CACHE:-${INDEX_DIR}/trex_renlg_bge.npy}"
 INDEX_CACHE="${INDEX_CACHE:-${INDEX_DIR}/trex_renlg_bge_ivf4096.faiss}"

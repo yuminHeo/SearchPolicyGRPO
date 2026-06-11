@@ -4,9 +4,8 @@ set -euo pipefail
 ROOT_DIR="${ROOT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 cd "${ROOT_DIR}"
 
-TRAJRL_DIR="${TRAJRL_DIR:-/data/YM/ExpCodes/TrajRL}"
-INDEX_DIR="${INDEX_DIR:-${TRAJRL_DIR}/outputs/indexes}"
-CORPUS="${CORPUS:-${TRAJRL_DIR}/dataset/trex_renlg/corpus.jsonl}"
+INDEX_DIR="${INDEX_DIR:-data/indexes}"
+CORPUS="${CORPUS:-${INDEX_DIR}/corpus.jsonl}"
 EMBEDDING_CACHE="${EMBEDDING_CACHE:-${INDEX_DIR}/trex_renlg_bge.npy}"
 INDEX_CACHE="${INDEX_CACHE:-${INDEX_DIR}/trex_renlg_bge_ivf4096.faiss}"
 RETRIEVER_PORT="${RETRIEVER_PORT:-8090}"
@@ -32,11 +31,27 @@ PY
 wait_for_retriever() {
   local url="$1"
   local max_wait="${2:-600}"
+  local pid="${3:-}"
+  local log_file="${4:-}"
   local waited=0
   until retriever_ready "$url"
   do
+    if [[ -n "${pid}" ]] && ! kill -0 "${pid}" 2>/dev/null; then
+      echo "[run] retriever process exited before becoming ready (pid=${pid})" >&2
+      if [[ -n "${log_file}" && -f "${log_file}" ]]; then
+        echo "[run] --- retriever log tail (${log_file}) ---" >&2
+        tail -n 80 "${log_file}" >&2 || true
+        echo "[run] --- end retriever log tail ---" >&2
+      fi
+      return 1
+    fi
     if (( waited >= max_wait )); then
       echo "[run] retriever did not become ready within ${max_wait}s: ${url}" >&2
+      if [[ -n "${log_file}" && -f "${log_file}" ]]; then
+        echo "[run] --- retriever log tail (${log_file}) ---" >&2
+        tail -n 80 "${log_file}" >&2 || true
+        echo "[run] --- end retriever log tail ---" >&2
+      fi
       return 1
     fi
     sleep 5
@@ -55,7 +70,6 @@ if [[ "${AUTO_START_RETRIEVER}" == "1" ]]; then
     echo "[run] corpus=${CORPUS}"
     echo "[run] embedding_cache=${EMBEDDING_CACHE}"
     echo "[run] index_cache=${INDEX_CACHE}"
-    TRAJRL_DIR="${TRAJRL_DIR}" \
     INDEX_DIR="${INDEX_DIR}" \
     CORPUS="${CORPUS}" \
     EMBEDDING_CACHE="${EMBEDDING_CACHE}" \
@@ -64,7 +78,7 @@ if [[ "${AUTO_START_RETRIEVER}" == "1" ]]; then
     scripts/launch_bge_retriever.sh >"${RETRIEVER_LOG}" 2>&1 &
     RETRIEVER_PID="$!"
     trap 'if [[ -n "${RETRIEVER_PID}" ]]; then kill "${RETRIEVER_PID}" 2>/dev/null || true; fi' EXIT
-    wait_for_retriever "${SEARCH_URL}" "${RETRIEVER_READY_TIMEOUT:-900}"
+    wait_for_retriever "${SEARCH_URL}" "${RETRIEVER_READY_TIMEOUT:-900}" "${RETRIEVER_PID}" "${RETRIEVER_LOG}"
   fi
 else
   echo "[run] using existing retriever at ${SEARCH_URL}"
@@ -80,5 +94,5 @@ scripts/train_stage2_search_grpo.sh \
   --lora_alpha 32 \
   --lora_dropout 0.05 \
   --auto_adjust_search_cost \
-  --lora_adapter_path /data/YM/sft-selected/qwen25_7b_turn_sft_lora_ddp-selected \
-  --ref_lora_adapter_path /data/YM/sft-selected/qwen25_7b_turn_sft_lora_ddp-selected
+  --lora_adapter_path /root/sft-selected \
+  --ref_lora_adapter_path /root/sft-selected
