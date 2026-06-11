@@ -6,6 +6,7 @@ Core behavior:
 
 - Samples `G` trajectories per triple.
 - Uses the same iterative context shape as inference: previous search results are compacted into `<result_summary>`, and only the latest retrieval is kept as full `<result>`.
+- Generates `<result_summary>` with the policy model by default, matching the original TrajRL behavior. Use `--result_summary_mode truncate` for a faster non-LLM fallback.
 - Computes loss only on model-generated `<think>`, `<search>`, and `<answer>` tokens. Retrieval-provided `<result>` and `<result_summary>` text is only conditioning context and is masked out by construction.
 - Applies the requested trajectory reward, group-relative advantage, KL penalty against the Stage 1 SFT reference model, identical-reward group skipping, gradient accumulation, and mixed precision.
 - Trains with LoRA by default. Use `--no_lora` only when full fine-tuning is intended.
@@ -35,8 +36,11 @@ scripts/train_stage2_search_grpo.sh \
   --train_batch_size 1 \
   --gradient_accumulation_steps 8 \
   --lora_r 16 \
-  --lora_alpha 32
+  --lora_alpha 32 \
+  --result_summary_mode llm
 ```
+
+Summary generation is run under `torch.no_grad()` and is not added to `model_steps`, so summary tokens are not included in the GRPO loss. The summary is used only as later-turn context.
 
 To continue from a Stage 1 LoRA adapter and use the same adapter as the frozen KL reference:
 

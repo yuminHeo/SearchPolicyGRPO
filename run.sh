@@ -93,5 +93,7 @@ scripts/train_stage2_search_grpo.sh \
   --lora_r 16 \
   --lora_alpha 32 \
   --lora_dropout 0.05 \
+  --result_summary_mode llm \
+  --result_summary_new_tokens 128 \
   --lora_adapter_path /root/sft-selected \
   --ref_lora_adapter_path /root/sft-selected

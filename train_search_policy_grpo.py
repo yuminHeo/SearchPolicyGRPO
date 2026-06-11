@@ -99,6 +99,10 @@ FINAL_ANSWER_PREFIX = (
     "explanation.</think>\n<answer>"
 )
 
+SUMMARY_SYSTEM_PROMPT = """You are an evidence summarizer for iterative knowledge-graph triple verification.
+Summarize retrieved search evidence into compact memory for the next verification turn.
+Use only the retrieved evidence. Preserve document ids when useful."""
+
 
 @dataclass
 class TripleExample:
@@ -381,7 +385,7 @@ def update_gold_hits(example: TripleExample, result_text: str, hits: set[str]) -
     return new_hits
 
 
-def result_summary(query: str, result_text: str, max_chars: int) -> str:
+def truncate_result_summary(query: str, result_text: str, max_chars: int) -> str:
     compact = result_text.strip()
     if len(compact) > max_chars:
         compact = compact[:max_chars].rstrip() + "\n...[truncated]"
@@ -389,6 +393,54 @@ def result_summary(query: str, result_text: str, max_chars: int) -> str:
         "<result_summary>\n"
         f"Query: {query}\n"
         "Earlier retrieved evidence, compacted by the retrieval system:\n"
+        f"{compact}\n"
+        "</result_summary>\n"
+    )
+
+
+def result_summary_prompt(example: TripleExample, query: str, result_text: str, max_chars: int) -> str:
+    return f"""Summarize retrieved evidence for iterative triple verification.
+
+Triple to verify:
+{example.statement()}
+
+Search query:
+{query}
+
+Retrieved evidence:
+{result_text}
+
+Write compact evidence memory for later reasoning.
+Rules:
+- Keep only information relevant to whether the triple is true or false.
+- Preserve source/document ids when present.
+- Mention whether the evidence directly supports, directly refutes, or is unclear about the triple.
+- Do not use outside knowledge.
+- Keep it under {max_chars} characters.
+"""
+
+
+def clean_summary_text(text: str, max_chars: int) -> str:
+    text = str(text or "").strip()
+    for marker in ("<|im_end|>", "<|endoftext|>"):
+        if marker in text:
+            text = text.split(marker, 1)[0].strip()
+    if "<result_summary>" in text and "</result_summary>" in text:
+        text = text.split("<result_summary>", 1)[1].split("</result_summary>", 1)[0].strip()
+    text = re.sub(r"</?(?:answer|search|think|result)>", "", text).strip()
+    if len(text) > max_chars:
+        text = text[:max_chars].rstrip() + "\n...[truncated]"
+    return text
+
+
+def llm_result_summary(query: str, generated_summary: str, fallback_result_text: str, max_chars: int) -> str:
+    compact = clean_summary_text(generated_summary, max_chars)
+    if not compact:
+        return truncate_result_summary(query, fallback_result_text, max_chars)
+    return (
+        "<result_summary>\n"
+        f"Query: {query}\n"
+        "Earlier retrieved evidence summary:\n"
         f"{compact}\n"
         "</result_summary>\n"
     )
@@ -580,6 +632,8 @@ def generate_text_batch(
     do_sample: bool,
     device: torch.device,
     synced_gpus: bool,
+    stop_at_action: bool = True,
+    skip_special_tokens: bool = False,
 ) -> list[str]:
     if not prompts:
         return []
@@ -610,7 +664,10 @@ def generate_text_batch(
     texts = []
     for row in output_ids:
         gen_ids = row[input_width:]
-        texts.append(truncate_at_action_stop(tokenizer.decode(gen_ids, skip_special_tokens=False)))
+        text = tokenizer.decode(gen_ids, skip_special_tokens=skip_special_tokens)
+        if stop_at_action:
+            text = truncate_at_action_stop(text)
+        texts.append(text)
     return texts
 
 
@@ -674,16 +731,59 @@ def rollout_batch(
 
         if search_items:
             results = retriever.search_many([query for _, _, query in search_items])
-            for (state, output, query), result in zip(search_items, results):
+            result_blocks = [f"<result>{result}\n</result>\n" for result in results]
+            if args.result_summary_mode == "llm":
+                summary_prompts = [
+                    qwen_chat_prompt(
+                        SUMMARY_SYSTEM_PROMPT,
+                        result_summary_prompt(
+                            example=state.example,
+                            query=query,
+                            result_text=result_block,
+                            max_chars=args.result_summary_chars,
+                        ),
+                        "",
+                    )
+                    for (state, _, query), result_block in zip(search_items, result_blocks)
+                ]
+                generated_summaries = generate_text_batch(
+                    model=model,
+                    tokenizer=tokenizer,
+                    prompts=summary_prompts,
+                    max_new_tokens=args.result_summary_new_tokens,
+                    temperature=0.0,
+                    top_p=1.0,
+                    top_k=0,
+                    do_sample=False,
+                    device=device,
+                    synced_gpus=args.synced_gpus,
+                    stop_at_action=False,
+                    skip_special_tokens=True,
+                )
+            else:
+                generated_summaries = [""] * len(search_items)
+            for (state, output, query), result, result_block, generated_summary in zip(
+                search_items,
+                results,
+                result_blocks,
+                generated_summaries,
+            ):
                 state.search_count += 1
                 ids = retrieved_doc_ids(result)
                 state.retrieved_doc_ids.extend(ids)
                 update_gold_hits(state.example, result, state.gold_evidence_hits)
                 compact_previous_results(state)
-                result_block = f"<result>{result}\n</result>\n"
                 state.prompt += result_block
                 state.trajectory += result_block
-                summary = result_summary(query, result_block, args.result_summary_chars)
+                if args.result_summary_mode == "llm":
+                    summary = llm_result_summary(
+                        query=query,
+                        generated_summary=generated_summary,
+                        fallback_result_text=result_block,
+                        max_chars=args.result_summary_chars,
+                    )
+                else:
+                    summary = truncate_result_summary(query, result_block, args.result_summary_chars)
                 state.result_history.append((output, result_block, summary))
 
     unfinished = [state for state in states if not state.finished]
@@ -1010,7 +1110,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--force_final_new_tokens", type=int, default=96)
     parser.add_argument("--top_n", type=int, default=5)
     parser.add_argument("--max_result_chars", type=int, default=2000)
+    parser.add_argument("--result_summary_mode", choices=["llm", "truncate"], default="llm")
     parser.add_argument("--result_summary_chars", type=int, default=480)
+    parser.add_argument("--result_summary_new_tokens", type=int, default=128)
     parser.add_argument("--max_seq_length", type=int, default=4096)
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--eval_temperature", type=float, default=0.0)
