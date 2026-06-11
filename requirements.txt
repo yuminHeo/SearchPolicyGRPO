@@ -1,0 +1,6 @@
+accelerate==1.13.0
+deepspeep==0.19.1
+peft==0.14
+requests>=2.31
+# torch>=2.1
+transformers==4.57.6
