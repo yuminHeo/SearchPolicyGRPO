@@ -11,6 +11,21 @@ Core behavior:
 - Trains with LoRA by default. Use `--no_lora` only when full fine-tuning is intended.
 - Logs accuracy, UNKNOWN rate, false UNKNOWN rate, true to false rate, false to true rate, average search count, forced-final invalid count, false recall, and true recall.
 
+## Reward
+
+Reward is computed once at the end of each trajectory:
+
+```text
+R = R_correct + R_format + R_evidence + R_search
+```
+
+- `R_correct`: `+1.0` if the final prediction matches the label, `0.0` if it is wrong, `-0.5` if it is `unknown`.
+- `R_format`: `+0.2` if the final answer format is valid, otherwise `-0.5`.
+- `R_evidence`: `+0.5` if the answer is correct and any retrieved document matches `gold_evidence`; otherwise `0.0`. This is applied for both positive and negative examples because the original positive gold document can also serve as contradiction evidence for negative variants.
+- `R_search`: search cost after the first search only, `max(0, N_search - 1) * -0.05`.
+
+The prediction is considered `true` or `false` only when it appears as boxed text inside `<answer>...</answer>`, for example `<answer>\boxed{true}</answer>`. Missing answers, unboxed answers, or other labels are treated as `unknown`.
+
 Example:
 
 ```bash

@@ -332,9 +332,12 @@ def extract_answer_label(text: str) -> str:
         return "unknown"
     answer = answers[-1]
     boxed = BOXED_RE.findall(answer)
-    if boxed:
-        return normalize_label(boxed[-1])
-    return normalize_label(answer)
+    if not boxed:
+        return "unknown"
+    label = normalize_label(boxed[-1])
+    if label not in {"true", "false"}:
+        return "unknown"
+    return label
 
 
 def answer_format_valid(text: str) -> bool:
@@ -419,24 +422,17 @@ def compute_reward(
     if pred == label and pred in {"true", "false"}:
         r_correct = 1.0
     elif pred == "unknown":
-        r_correct = -1.5
+        r_correct = -0.5
     else:
-        r_correct = -1.0
+        r_correct = 0.0
 
     r_format = 0.2 if valid_format else -0.5
-    r_search = -float(search_cost_coef) * state.search_count
-
-    if label == "true" and pred == "false":
-        r_label = -1.3
-    elif label == "false" and pred == "true":
-        r_label = -1.0
-    else:
-        r_label = 0.0
+    r_search = -float(search_cost_coef) * max(0, state.search_count - 1)
 
     prediction_correct = pred == label and pred in {"true", "false"}
-    r_evidence = 0.2 if state.gold_evidence_hits and prediction_correct else 0.0
+    r_evidence = 0.5 if state.gold_evidence_hits and prediction_correct else 0.0
 
-    raw = r_correct + r_format + r_search + r_label + r_evidence
+    raw = r_correct + r_format + r_evidence + r_search
     clipped = max(reward_clip_min, min(reward_clip_max, raw))
     components = {
         "reward_raw": raw,
@@ -444,12 +440,12 @@ def compute_reward(
         "R_correct": r_correct,
         "R_format": r_format,
         "R_search": r_search,
-        "R_label": r_label,
         "R_evidence": r_evidence,
         "prediction": pred,
         "label": label,
         "answer_format_valid": valid_format,
         "search_count": state.search_count,
+        "charged_search_count": max(0, state.search_count - 1),
         "gold_evidence_retrieved": bool(state.gold_evidence_hits),
         "forced_final": state.forced_final,
         "forced_final_invalid": state.forced_final and not valid_format,
@@ -978,10 +974,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--synced_gpus", action="store_true")
     parser.add_argument("--beta_kl", type=float, default=0.001)
     parser.add_argument("--advantage_epsilon", type=float, default=1e-6)
-    parser.add_argument("--reward_clip_min", type=float, default=-3.0)
+    parser.add_argument("--reward_clip_min", type=float, default=-1.0)
     parser.add_argument("--reward_clip_max", type=float, default=1.5)
-    parser.add_argument("--search_cost_coef", type=float, default=0.02)
-    parser.add_argument("--search_cost_coef_max", type=float, default=0.04)
+    parser.add_argument("--search_cost_coef", type=float, default=0.05)
+    parser.add_argument("--search_cost_coef_max", type=float, default=0.05)
     parser.add_argument("--search_cost_adjust_step", type=float, default=0.002)
     parser.add_argument("--target_unknown_rate", type=float, default=0.05)
     parser.add_argument("--unknown_rate_tolerance", type=float, default=0.02)
