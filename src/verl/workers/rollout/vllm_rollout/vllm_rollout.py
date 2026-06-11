@@ -340,7 +340,8 @@ class vLLMRolloutWithTool(vLLMRollout):
                 task_indices.append((env_idx, call_idx))
 
         all_results = [None] * len(all_tasks)
-        with ThreadPoolExecutor(max_workers=8) as executor:
+        max_workers = int(self.config.get("search_max_workers", 32))
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_index = {
                 executor.submit(exe_tool_call, call): i for i, call in enumerate(all_tasks)
             }

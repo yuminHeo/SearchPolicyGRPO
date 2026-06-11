@@ -1,0 +1,364 @@
+_wandb:
+    value:
+        cli_version: 0.27.2
+        e:
+            gcrv3mffmcxklk9rl4hvcwb9wup0z7z6:
+                args:
+                    - --node-ip-address=172.17.0.2
+                    - --node-manager-port=35783
+                    - --object-store-name=/tmp/ray/session_2026-06-11_17-43-59_767546_352315/sockets/plasma_store
+                    - --raylet-name=/tmp/ray/session_2026-06-11_17-43-59_767546_352315/sockets/raylet
+                    - --redis-address=None
+                    - --metrics-agent-port=0
+                    - --logging-rotate-bytes=536870912
+                    - --logging-rotate-backup-count=5
+                    - --runtime-env-agent-port=0
+                    - --gcs-address=172.17.0.2:39627
+                    - --session-name=session_2026-06-11_17-43-59_767546_352315
+                    - --temp-dir=/tmp/ray
+                    - --webui=127.0.0.1:8266
+                    - --cluster-id=418ae26b2ca4a1c6b8eb4387057da32117b61d7e626bb2bbf38337c6
+                    - --worker-id=90273be42de5cd56ece2a8086ac76e8268f34488653c1e99fb567fc2
+                    - --worker-launch-time-ms=1781199848963
+                    - --node-id=12e78e4f20072538f5d6ba84181e658be4798fca828e0bb61e9dacd8
+                    - --runtime-env-hash=2008816687
+                cpu_count: 128
+                cpu_count_logical: 128
+                cudaVersion: "13.2"
+                disk:
+                    /:
+                        total: "549755813888"
+                        used: "75325804544"
+                email: rsdfq1230@g.skku.edu
+                executable: /venv/main/bin/python
+                git:
+                    commit: ab1673542ef996dfc20f44fc426722f538e47bd9
+                    remote: https://github.com/yuminHeo/SearchPolicyGRPO.git
+                gpu: NVIDIA A100-SXM4-80GB
+                gpu_count: 8
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-34a823fd-fe55-3d7f-b7da-c2e00d034b28
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-086e9ca0-d470-4051-3339-2049935873bf
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-96c83d7a-e8ec-c6d9-d428-9b84475c8c11
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-673f39a8-0a5b-4036-e360-b50b41e5a6e6
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-bf63367d-1e5e-ad17-b331-7b73497d41c5
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-55a759e4-0595-4df3-c9c7-0add52794ffc
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-888adbff-c09d-59f7-2cae-dc56ac048979
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "85899345920"
+                      name: NVIDIA A100-SXM4-80GB
+                      uuid: GPU-5956ff66-3647-b84e-e873-606ed40965d2
+                host: 8e516168c7f4
+                memory:
+                    total: "2151664709632"
+                os: Linux-6.8.0-54-generic-x86_64-with-glibc2.35
+                program: /usr/local/lib/python3.12/dist-packages/ray/_private/workers/default_worker.py
+                python: CPython 3.12.13
+                root: /workspace/SearchPolicyGRPO
+                startedAt: "2026-06-11T17:47:18.276914Z"
+                writerId: gcrv3mffmcxklk9rl4hvcwb9wup0z7z6
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 30
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+                - 95
+                - 105
+            "2":
+                - 1
+                - 5
+                - 11
+                - 30
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+                - 95
+                - 105
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.12.13
+            "5": 0.27.2
+            "6": 4.57.6
+            "12": 0.27.2
+            "13": linux-x86_64
+actor_rollout_ref:
+    value:
+        actor:
+            checkpoint:
+                contents:
+                    - model
+                    - optimizer
+                    - extra
+            clip_ratio: 0.2
+            clip_ratio_c: 3
+            clip_ratio_high: 0.2
+            clip_ratio_low: 0.2
+            entropy_coeff: 0.001
+            forward_dtype: bf16
+            fsdp_config:
+                fsdp_size: -1
+                mixed_precision:
+                    buffer_dtype: fp32
+                    param_dtype: bf16
+                    reduce_dtype: fp32
+                optimizer_offload: false
+                param_offload: false
+                wrap_policy:
+                    min_num_params: 0
+            grad_clip: 1
+            kl_loss_coef: 0.001
+            kl_loss_type: low_var_kl
+            loss_agg_mode: token-mean
+            optim:
+                lr: 1e-06
+                lr_warmup_steps: -1
+                lr_warmup_steps_ratio: 0
+                min_lr_ratio: null
+                total_training_steps: 89
+                warmup_style: constant
+                weight_decay: 0.01
+            ppo_epochs: 1
+            ppo_max_token_len_per_gpu: 9728
+            ppo_micro_batch_size: null
+            ppo_micro_batch_size_per_gpu: null
+            ppo_mini_batch_size: 32
+            shuffle: false
+            strategy: fsdp
+            ulysses_sequence_parallel_size: 1
+            use_dynamic_bsz: true
+            use_kl_loss: true
+            use_torch_compile: false
+        hybrid_engine: true
+        model:
+            enable_gradient_checkpointing: true
+            external_lib: null
+            lora_adapter_path: /workspace/sft
+            path: Qwen/Qwen2.5-7B-Instruct
+            use_liger: false
+            use_remove_padding: true
+        ref:
+            fsdp_config:
+                mixed_precision:
+                    buffer_dtype: fp32
+                    param_dtype: bf16
+                    reduce_dtype: fp32
+                model_dtype: bf16
+                param_offload: true
+                wrap_policy:
+                    min_num_params: 0
+            log_prob_max_token_len_per_gpu: 19456
+            log_prob_micro_batch_size: null
+            log_prob_micro_batch_size_per_gpu: null
+            log_prob_use_dynamic_bsz: true
+            strategy: fsdp
+            ulysses_sequence_parallel_size: 1
+        rollout:
+            disable_log_stats: true
+            do_sample: true
+            dtype: bfloat16
+            enable_chunked_prefill: true
+            enforce_eager: true
+            free_cache_engine: false
+            gpu_memory_utilization: 0.7
+            ignore_eos: false
+            load_format: dummy_dtensor
+            log_prob_max_token_len_per_gpu: 19456
+            log_prob_micro_batch_size: null
+            log_prob_micro_batch_size_per_gpu: null
+            log_prob_use_dynamic_bsz: true
+            max_model_len: null
+            max_num_batched_tokens: 24576
+            max_num_seqs: 384
+            max_result_chars: 2000
+            max_turns: 4
+            "n": 4
+            name: vllm_with_tool
+            prompt_length: 4096
+            response_length: 768
+            result_summary_chars: 480
+            result_summary_mode: llm
+            result_summary_new_tokens: 128
+            sandbox_url: null
+            search_max_workers: 32
+            search_url: http://localhost:8090
+            temperature: 1
+            tensor_model_parallel_size: 1
+            top_k: 50
+            top_n: 5
+            top_p: 0.95
+            use_fire_sampling: false
+            val_kwargs:
+                do_sample: false
+                "n": 1
+                temperature: 0
+                top_k: -1
+                top_p: 1
+algorithm:
+    value:
+        adv_estimator: grpo
+        gamma: 1
+        kl_ctrl:
+            horizon: 10000
+            kl_coef: 0.001
+            target_kl: 0.1
+            type: fixed
+        kl_penalty: kl
+        lam: 1
+        use_kl_in_reward: false
+critic:
+    value:
+        checkpoint:
+            contents:
+                - model
+                - optimizer
+                - extra
+        cliprange_value: 0.5
+        forward_max_token_len_per_gpu: 32768
+        forward_micro_batch_size: null
+        forward_micro_batch_size_per_gpu: null
+        grad_clip: 1
+        model:
+            enable_gradient_checkpointing: true
+            external_lib: null
+            fsdp_config:
+                fsdp_size: -1
+                optimizer_offload: false
+                param_offload: false
+                wrap_policy:
+                    min_num_params: 0
+            path: ~/models/deepseek-llm-7b-chat
+            tokenizer_path: Qwen/Qwen2.5-7B-Instruct
+            use_remove_padding: false
+        optim:
+            lr: 1e-05
+            lr_warmup_steps_ratio: 0
+            min_lr_ratio: null
+            total_training_steps: 89
+            warmup_style: constant
+            weight_decay: 0.01
+        ppo_epochs: 1
+        ppo_max_token_len_per_gpu: 32768
+        ppo_micro_batch_size: null
+        ppo_micro_batch_size_per_gpu: null
+        ppo_mini_batch_size: 32
+        rollout_n: 4
+        shuffle: false
+        strategy: fsdp
+        ulysses_sequence_parallel_size: 1
+        use_dynamic_bsz: true
+custom_reward_function:
+    value:
+        name: compute_score
+        path: /workspace/SearchPolicyGRPO/verl_search_policy/reward.py
+data:
+    value:
+        custom_cls:
+            name: null
+            path: null
+        filter_overlong_prompts: true
+        filter_overlong_prompts_workers: 1
+        image_key: images
+        max_prompt_length: 4096
+        max_response_length: 768
+        prompt_key: prompt
+        prompt_template_name: search_policy_template_sys
+        return_raw_chat: false
+        return_raw_input_ids: false
+        reward_fn_key: data_source
+        search_url: http://localhost:8090
+        shuffle: true
+        tokenizer: null
+        train_batch_size: 64
+        train_files: outputs/verl_data/search_policy/train.parquet
+        truncation: error
+        use_re_call: true
+        val_batch_size: null
+        val_files: outputs/verl_data/search_policy/val.parquet
+reward_model:
+    value:
+        enable: false
+        forward_max_token_len_per_gpu: 32768
+        max_length: null
+        micro_batch_size: null
+        micro_batch_size_per_gpu: null
+        model:
+            external_lib: null
+            fsdp_config:
+                fsdp_size: -1
+                param_offload: false
+                wrap_policy:
+                    min_num_params: 0
+            input_tokenizer: Qwen/Qwen2.5-7B-Instruct
+            path: ~/models/FsfairX-LLaMA3-RM-v0.1
+            use_remove_padding: false
+        reward_manager: naive
+        strategy: fsdp
+        ulysses_sequence_parallel_size: 1
+        use_dynamic_bsz: true
+trainer:
+    value:
+        balance_batch: true
+        critic_warmup: 0
+        default_hdfs_dir: null
+        default_local_dir: outputs/verl_search_policy_grpo/20260611_174350
+        del_local_ckpt_after_load: false
+        experiment_name: verl-search-policy-grpo
+        log_val_generations: 0
+        logger:
+            - console
+            - wandb
+        max_actor_ckpt_to_keep: null
+        max_critic_ckpt_to_keep: null
+        n_gpus_per_node: 8
+        nnodes: 1
+        project_name: SearchPolicyGRPO
+        ray_wait_register_center_timeout: 300
+        resume_from_path: null
+        resume_mode: auto
+        rollout_save_path: outputs/verl_search_policy_grpo/20260611_174350/rollout
+        save_freq: 10
+        test_freq: -1
+        total_epochs: 1
+        total_training_steps: null
+        val_before_train: false

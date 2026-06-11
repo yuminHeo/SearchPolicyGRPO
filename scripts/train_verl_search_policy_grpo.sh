@@ -82,13 +82,15 @@ MAX_RESPONSE_LENGTH="${MAX_RESPONSE_LENGTH:-768}"
 MAX_TURNS="${MAX_TURNS:-4}"
 ROLLOUT_NAME="${ROLLOUT_NAME:-vllm_with_tool}"
 REWARD_MANAGER="${REWARD_MANAGER:-naive}"
-LOGGER="${LOGGER:-console}"
+LOGGER="${LOGGER:-console,wandb}"
 WANDB_API_KEY="${WANDB_API_KEY:-}"
 LORA_ADAPTER_PATH="${LORA_ADAPTER_PATH:-/workspace/sft}"
 TOP_N="${TOP_N:-5}"
 MAX_RESULT_CHARS="${MAX_RESULT_CHARS:-2000}"
 RESULT_SUMMARY_MODE="${RESULT_SUMMARY_MODE:-llm}"
 RESULT_SUMMARY_CHARS="${RESULT_SUMMARY_CHARS:-480}"
+RESULT_SUMMARY_NEW_TOKENS="${RESULT_SUMMARY_NEW_TOKENS:-128}"
+SEARCH_MAX_WORKERS="${SEARCH_MAX_WORKERS:-32}"
 GPU_PARALLEL_OVERRIDE=0
 
 while [[ $# -gt 0 ]]; do
@@ -247,10 +249,12 @@ python -m verl.trainer.main_ppo \
   actor_rollout_ref.rollout.enforce_eager="${ROLLOUT_ENFORCE_EAGER}" \
   actor_rollout_ref.rollout.free_cache_engine=False \
   +actor_rollout_ref.rollout.search_url="${SEARCH_URL}" \
+  +actor_rollout_ref.rollout.search_max_workers="${SEARCH_MAX_WORKERS}" \
   +actor_rollout_ref.rollout.top_n="${TOP_N}" \
   +actor_rollout_ref.rollout.max_result_chars="${MAX_RESULT_CHARS}" \
   +actor_rollout_ref.rollout.result_summary_mode="${RESULT_SUMMARY_MODE}" \
   +actor_rollout_ref.rollout.result_summary_chars="${RESULT_SUMMARY_CHARS}" \
+  +actor_rollout_ref.rollout.result_summary_new_tokens="${RESULT_SUMMARY_NEW_TOKENS}" \
   actor_rollout_ref.ref.log_prob_max_token_len_per_gpu="$((4 * (MAX_PROMPT_LENGTH + MAX_RESPONSE_LENGTH)))" \
   actor_rollout_ref.ref.fsdp_config.param_offload=True \
   +actor_rollout_ref.ref.fsdp_config.model_dtype="${FSDP_PARAM_DTYPE}" \

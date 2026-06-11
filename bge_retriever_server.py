@@ -3,12 +3,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import queue
 import threading
 import time
+from concurrent.futures import Future
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+from fastapi import FastAPI, HTTPException, Request
 
 
 class JsonlCorpus:
@@ -82,6 +85,8 @@ class BGERetriever:
         faiss_device: str = "cpu",
         batch_size: int = 128,
         faiss_nprobe: int = 32,
+        query_batch_size: int = 128,
+        query_batch_wait_ms: int = 20,
     ) -> None:
         try:
             import faiss
@@ -100,10 +105,20 @@ class BGERetriever:
         self.faiss_device = faiss_device
         self.batch_size = max(1, int(batch_size))
         self.faiss_nprobe = max(1, int(faiss_nprobe))
+        self.query_batch_size = max(1, int(query_batch_size))
+        self.query_batch_wait_s = max(0.0, float(query_batch_wait_ms) / 1000.0)
         self.corpus = JsonlCorpus(corpus, offset_cache=offset_cache)
         self.model = SentenceTransformer(model_name, device=device)
         self.index = self._load_index(index_cache)
         self._lock = threading.Lock()
+        self._request_queue: queue.Queue[tuple[str, int, Future]] = queue.Queue()
+        self._batch_worker = threading.Thread(target=self._batch_loop, name="bge-query-batcher", daemon=True)
+        self._batch_worker.start()
+        print(
+            f"[bge_retriever] query batching enabled batch_size={self.query_batch_size} "
+            f"wait_ms={self.query_batch_wait_s * 1000:.1f}",
+            flush=True,
+        )
 
         if self.index.ntotal != len(self.corpus):
             print(
@@ -147,7 +162,14 @@ class BGERetriever:
             gpu_id = int(device_text.split(":", 1)[1].split(",", 1)[0])
         res = self.faiss.StandardGpuResources()
         self._gpu_resource = res
-        return self.faiss.index_cpu_to_gpu(res, gpu_id, index)
+        print(f"[bge_retriever] moving FAISS index to gpu_id={gpu_id}", flush=True)
+        try:
+            return self.faiss.index_cpu_to_gpu(res, gpu_id, index)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Failed to move FAISS index to {self.faiss_device}. "
+                "Set RETRIEVER_FAISS_DEVICE=cpu to use CPU FAISS, or install/use faiss-gpu with enough free VRAM."
+            ) from exc
 
     def encode_queries(self, queries: list[str]) -> np.ndarray:
         embeddings = self.model.encode(
@@ -158,22 +180,61 @@ class BGERetriever:
         )
         return np.asarray(embeddings, dtype=np.float32)
 
+    def _materialize_results(
+        self,
+        indices: np.ndarray,
+        scores: np.ndarray,
+        top_n: int,
+    ) -> tuple[list[dict[str, Any]], list[float]]:
+        docs: list[dict[str, Any]] = []
+        out_scores: list[float] = []
+        for idx, score in zip(indices[:top_n].tolist(), scores[:top_n].tolist()):
+            if idx < 0:
+                continue
+            docs.append(self.corpus.get(int(idx)))
+            out_scores.append(float(score))
+        return docs, out_scores
+
+    def _search_batch(self, requests: list[tuple[str, int, Future]]) -> None:
+        live_requests = [(query, top_n, future) for query, top_n, future in requests if not future.cancelled()]
+        if not live_requests:
+            return
+        queries = [query for query, _, _ in live_requests]
+        max_top_n = max(top_n for _, top_n, _ in live_requests)
+        try:
+            with self._lock:
+                query_embeddings = self.encode_queries(queries)
+                scores, indices = self.index.search(query_embeddings, int(max_top_n))
+            for row, (_, top_n, future) in enumerate(live_requests):
+                if not future.cancelled():
+                    future.set_result(self._materialize_results(indices[row], scores[row], top_n))
+        except Exception as exc:
+            for _, _, future in live_requests:
+                if not future.cancelled():
+                    future.set_exception(exc)
+
+    def _batch_loop(self) -> None:
+        while True:
+            first = self._request_queue.get()
+            requests = [first]
+            deadline = time.monotonic() + self.query_batch_wait_s
+            while len(requests) < self.query_batch_size:
+                timeout = deadline - time.monotonic()
+                if timeout <= 0:
+                    break
+                try:
+                    requests.append(self._request_queue.get(timeout=timeout))
+                except queue.Empty:
+                    break
+            self._search_batch(requests)
+
     def search(self, query: str, top_n: int = 5) -> tuple[list[dict[str, Any]], list[float]]:
         query = str(query or "").strip()
         if not query:
             return [], []
-        with self._lock:
-            query_embedding = self.encode_queries([query])
-            scores, indices = self.index.search(query_embedding, int(top_n))
-        docs: list[dict[str, Any]] = []
-        out_scores: list[float] = []
-        for idx, score in zip(indices[0].tolist(), scores[0].tolist()):
-            if idx < 0:
-                continue
-            doc = self.corpus.get(int(idx))
-            docs.append(doc)
-            out_scores.append(float(score))
-        return docs, out_scores
+        future: Future = Future()
+        self._request_queue.put((query, int(top_n), future))
+        return future.result()
 
 
 RETRIEVER: BGERetriever | None = None
@@ -181,7 +242,7 @@ SERVER_CONFIG: dict[str, Any] = {}
 
 
 def create_app():
-    from fastapi import FastAPI, HTTPException, Request
+    import asyncio
 
     app = FastAPI()
 
@@ -230,7 +291,7 @@ def create_app():
         query, top_n, return_score = await _parse_search_request(request)
         if not query.strip():
             raise HTTPException(status_code=400, detail="query is empty")
-        docs, scores = RETRIEVER.search(query, top_n=top_n)
+        docs, scores = await asyncio.to_thread(RETRIEVER.search, query, top_n=top_n)
         if return_score:
             return docs, scores
         return docs
@@ -248,8 +309,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--faiss_device", default="cpu")
     parser.add_argument("--batch_size", type=int, default=128)
-    parser.add_argument("--query_batch_size", type=int, default=128, help="Accepted for launcher compatibility.")
-    parser.add_argument("--query_batch_wait_ms", type=int, default=20, help="Accepted for launcher compatibility.")
+    parser.add_argument("--query_batch_size", type=int, default=128)
+    parser.add_argument("--query_batch_wait_ms", type=int, default=20)
     parser.add_argument("--faiss_nprobe", type=int, default=32)
     parser.add_argument("--port", type=int, default=8090)
     parser.add_argument("--host", default="0.0.0.0")
@@ -270,6 +331,8 @@ def main() -> None:
         faiss_device=args.faiss_device,
         batch_size=args.batch_size,
         faiss_nprobe=args.faiss_nprobe,
+        query_batch_size=args.query_batch_size,
+        query_batch_wait_ms=args.query_batch_wait_ms,
     )
     import uvicorn
 

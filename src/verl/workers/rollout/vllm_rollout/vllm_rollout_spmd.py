@@ -44,6 +44,11 @@ import verl.utils.torch_functional as verl_F
 from verl.utils.model import compute_position_id_with_mask
 from .generate_new_prompts import generate_new_prompts
 
+SUMMARY_SYSTEM_PROMPT = """You are an evidence summarizer for iterative knowledge-graph triple verification.
+Summarize retrieved search evidence into compact memory for the next verification turn.
+Use only the retrieved evidence. Preserve document ids when useful."""
+
+
 # TODO
 # 1. support pp in vllm
 # 2. passing tokenizer is not necessary? no encoding/decoding is happending here
@@ -365,6 +370,172 @@ class vLLMRolloutWithTool(vLLMRollout):
         except Exception as e:
             return []
     
+    def _result_summary_chars(self) -> int:
+        return int(self.config.get("result_summary_chars", 480))
+
+    def _result_summary_new_tokens(self) -> int:
+        return int(self.config.get("result_summary_new_tokens", 128))
+
+    def _truncate_result_summary(self, query: str, result_text: str) -> str:
+        max_chars = self._result_summary_chars()
+        compact = str(result_text or "").strip()
+        if len(compact) > max_chars:
+            compact = compact[:max_chars].rstrip() + "\n...[truncated]"
+        return (
+            "<result_summary>\n"
+            f"Query: {query}\n"
+            "Earlier retrieved evidence, compacted by the retrieval system:\n"
+            f"{compact}\n"
+            "</result_summary>\n"
+        )
+
+    def _clean_summary_text(self, text: str) -> str:
+        max_chars = self._result_summary_chars()
+        text = str(text or "").strip()
+        for marker in ("<|im_end|>", "<|endoftext|>"):
+            if marker in text:
+                text = text.split(marker, 1)[0].strip()
+        if "<result_summary>" in text and "</result_summary>" in text:
+            text = text.split("<result_summary>", 1)[1].split("</result_summary>", 1)[0].strip()
+        text = re.sub(r"</?(?:answer|search|think|result)>", "", text).strip()
+        if len(text) > max_chars:
+            text = text[:max_chars].rstrip() + "\n...[truncated]"
+        return text
+
+    def _llm_result_summary(self, query: str, generated_summary: str, fallback_result_text: str) -> str:
+        compact = self._clean_summary_text(generated_summary)
+        if not compact:
+            return self._truncate_result_summary(query, fallback_result_text)
+        return (
+            "<result_summary>\n"
+            f"Query: {query}\n"
+            "Earlier retrieved evidence summary:\n"
+            f"{compact}\n"
+            "</result_summary>\n"
+        )
+
+    def _extract_triple_statement(self, init_ids: List[int]) -> str:
+        prompt = self.tokenizer.decode(init_ids, skip_special_tokens=True)
+        fields = {}
+        for key in ("Subject", "Predicate", "Object"):
+            match = re.search(rf"^{key}:\s*(.+)$", prompt, flags=re.MULTILINE)
+            if match:
+                fields[key.lower()] = match.group(1).strip()
+        if all(key in fields for key in ("subject", "predicate", "object")):
+            return (
+                f"Subject: {fields['subject']}\n"
+                f"Predicate: {fields['predicate']}\n"
+                f"Object: {fields['object']}"
+            )
+        return prompt.strip()
+
+    def _extract_last_search_query(self, generated_ids_before: List[int]) -> str:
+        text = self.tokenizer.decode(generated_ids_before, skip_special_tokens=False)
+        matches = re.findall(r"<search>((?:(?!</search>).)*)</search>", text, flags=re.DOTALL)
+        return matches[-1].strip() if matches else ""
+
+    def _result_summary_prompt(self, statement: str, query: str, result_text: str) -> str:
+        max_chars = self._result_summary_chars()
+        return f"""Summarize retrieved evidence for iterative triple verification.
+
+Triple to verify:
+{statement}
+
+Search query:
+{query}
+
+Retrieved evidence:
+{result_text}
+
+Write compact evidence memory for later reasoning.
+Rules:
+- Keep only information relevant to whether the triple is true or false.
+- Preserve source/document ids when present.
+- Mention whether the evidence directly supports, directly refutes, or is unclear about the triple.
+- Do not use outside knowledge.
+- Keep it under {max_chars} characters.
+"""
+
+    def _qwen_chat_prompt(self, system: str, user: str) -> str:
+        messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
+        if hasattr(self.tokenizer, "apply_chat_template"):
+            return self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        return f"<|im_start|>system\n{system}<|im_end|>\n<|im_start|>user\n{user}<|im_end|>\n<|im_start|>assistant\n"
+
+    def _llm_summarize_results(self, summary_items: List[dict]) -> List[str]:
+        if not summary_items:
+            return []
+
+        prompt_ids = []
+        for item in summary_items:
+            user_prompt = self._result_summary_prompt(item["statement"], item["query"], item["result_text"])
+            prompt = self._qwen_chat_prompt(SUMMARY_SYSTEM_PROMPT, user_prompt)
+            prompt_ids.append(self.tokenizer.encode(prompt, add_special_tokens=False))
+
+        max_tokens = self._result_summary_new_tokens()
+        with self.update_sampling_params(n=1, max_tokens=max_tokens, temperature=0.0, top_p=1.0, top_k=-1):
+            outputs = self.inference_engine.generate(
+                prompts=[{"prompt_token_ids": ids} for ids in prompt_ids],
+                sampling_params=self.sampling_params,
+                use_tqdm=False,
+            )
+
+        summaries = []
+        for item, output in zip(summary_items, outputs):
+            token_ids = list(output.outputs[0].token_ids)
+            generated = self.tokenizer.decode(token_ids, skip_special_tokens=True)
+            summaries.append(self._llm_result_summary(item["query"], generated, item["result_text"]))
+        return summaries
+
+    def _summarize_previous_results(self, init_ids: List[int], curr_ids: List[int], result_mask: List[int]):
+        mode = str(self.config.get("result_summary_mode", "truncate")).lower()
+        if mode == "none":
+            return curr_ids, result_mask
+
+        generated_ids = curr_ids[len(init_ids):]
+        statement = self._extract_triple_statement(init_ids)
+        summary_items = []
+        new_parts = []
+        i = 0
+        while i < len(generated_ids):
+            mask_value = result_mask[i]
+            j = i + 1
+            while j < len(generated_ids) and result_mask[j] == mask_value:
+                j += 1
+            span_ids = generated_ids[i:j]
+            if mask_value == 0:
+                text = self.tokenizer.decode(span_ids, skip_special_tokens=False)
+                if text.lstrip().startswith("<result>"):
+                    query = self._extract_last_search_query(generated_ids[:i])
+                    summary_items.append({"statement": statement, "query": query, "result_text": text})
+                    new_parts.append((None, 0))
+                else:
+                    new_parts.append((span_ids, 0))
+            else:
+                new_parts.append((span_ids, 1))
+            i = j
+
+        if not summary_items:
+            return curr_ids, result_mask
+
+        if mode == "llm":
+            summaries = self._llm_summarize_results(summary_items)
+        else:
+            summaries = [self._truncate_result_summary(item["query"], item["result_text"]) for item in summary_items]
+
+        summary_iter = iter(summaries)
+        rebuilt_ids = list(init_ids)
+        rebuilt_mask = []
+        for part, mask_value in new_parts:
+            if part is None:
+                ids = self.tokenizer.encode(next(summary_iter), add_special_tokens=False)
+                rebuilt_ids.extend(ids)
+                rebuilt_mask.extend([0] * len(ids))
+            else:
+                rebuilt_ids.extend(part)
+                rebuilt_mask.extend([mask_value] * len(part))
+        return rebuilt_ids, rebuilt_mask
+
     def batch_execute(self, env_list: List[str], tool_calls_list: List[List[str]]):
         del env_list
 
@@ -419,7 +590,8 @@ class vLLMRolloutWithTool(vLLMRollout):
 
         # parallel execute all tasks
         all_results = [None] * len(all_tasks)
-        with ThreadPoolExecutor(max_workers=8) as executor:
+        max_workers = int(self.config.get("search_max_workers", 32))
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_index = {executor.submit(exe_tool_call, call): i for i, call in enumerate(all_tasks)}
             for future in as_completed(future_to_index):
                 index = future_to_index[future]
@@ -600,6 +772,9 @@ class vLLMRolloutWithTool(vLLMRollout):
                         
 
                         for idx, tool_calls, tool_responses in zip(call_indices, tool_calls_list, tool_responses_list):
+                            curr_inputs[idx], result_mask_list[idx] = self._summarize_previous_results(
+                                init_inputs[idx], curr_inputs[idx], result_mask_list[idx]
+                            )
                             tool_response_str = ''
                             for call, response in zip(tool_calls, tool_responses):
                                 tool_response_str += f"<result>{response}\n</result>\n"
@@ -646,7 +821,9 @@ class vLLMRolloutWithTool(vLLMRollout):
                 for j in range(1):
                     idx = i * 1 + j
                     input_len = len(input_ids)
-                    output_ids_list.append(curr_inputs[idx][input_len:])
+                    output_ids = curr_inputs[idx][input_len:input_len + self.config.response_length]
+                    output_ids_list.append(output_ids)
+                    result_mask_list[idx] = result_mask_list[idx][:len(output_ids)]
 
         response_attention_mask_list = []
         response_list = []

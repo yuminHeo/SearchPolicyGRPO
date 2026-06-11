@@ -5,11 +5,15 @@ ROOT_DIR="${ROOT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 INDEX_DIR="${INDEX_DIR:-data/indexes}"
 
 CORPUS="${CORPUS:-${INDEX_DIR}/corpus.jsonl}"
-MODEL_NAME="${MODEL_NAME:-${BGE_MODEL_NAME:-BAAI/bge-base-en-v1.5}}"
+MODEL_NAME="${RETRIEVER_MODEL_NAME:-${BGE_MODEL_NAME:-BAAI/bge-base-en-v1.5}}"
 EMBEDDING_CACHE="${EMBEDDING_CACHE:-${INDEX_DIR}/trex_renlg_bge.npy}"
 INDEX_CACHE="${INDEX_CACHE:-${INDEX_DIR}/trex_renlg_bge_ivf4096.faiss}"
 OFFSET_CACHE="${OFFSET_CACHE:-${ROOT_DIR}/outputs/retriever/$(basename "${CORPUS}").offsets.npy}"
 PORT="${PORT:-${RETRIEVER_PORT:-8090}}"
+PYTHON_BIN="${PYTHON_BIN:-/venv/main/bin/python}"
+if [[ ! -x "${PYTHON_BIN}" ]]; then
+  PYTHON_BIN="python3"
+fi
 
 # Keep FAISS on CPU by default because GRPO usually occupies training GPUs.
 DEVICE="${DEVICE:-${RETRIEVER_DEVICE:-cuda:3}}"
@@ -44,7 +48,7 @@ echo "[launch_bge_retriever] faiss_device=${FAISS_DEVICE}"
 echo "[launch_bge_retriever] port=${PORT}"
 
 cd "${ROOT_DIR}"
-exec python bge_retriever_server.py \
+exec "${PYTHON_BIN}" bge_retriever_server.py \
   --corpus "${CORPUS}" \
   --model_name "${MODEL_NAME}" \
   --embedding_cache "${EMBEDDING_CACHE}" \
