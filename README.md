@@ -9,7 +9,8 @@ Core behavior:
 - Computes loss only on model-generated `<think>`, `<search>`, and `<answer>` tokens. Retrieval-provided `<result>` and `<result_summary>` text is only conditioning context and is masked out by construction.
 - Applies the requested trajectory reward, group-relative advantage, KL penalty against the Stage 1 SFT reference model, identical-reward group skipping, gradient accumulation, and mixed precision.
 - Trains with LoRA by default. Use `--no_lora` only when full fine-tuning is intended.
-- Logs accuracy, UNKNOWN rate, false UNKNOWN rate, true to false rate, false to true rate, average search count, forced-final invalid count, false recall, and true recall.
+- Logs accuracy, UNKNOWN rate, false UNKNOWN rate, true to false rate, false to true rate, average search count, forced-final invalid count, false recall, and true recall to JSONL and Weights & Biases.
+- Shows train/eval progress with `tqdm`, including ETA and current loss/reward/accuracy/search stats.
 
 ## Reward
 
@@ -44,6 +45,26 @@ scripts/train_stage2_search_grpo.sh \
   --lora_adapter_path outputs/stage1_sft_lora \
   --ref_lora_adapter_path outputs/stage1_sft_lora
 ```
+
+## Logging
+
+Weights & Biases is enabled by default on the main process:
+
+```bash
+scripts/train_stage2_search_grpo.sh \
+  --wandb_project SearchPolicyGRPO \
+  --wandb_run_name grpo-bge-lora
+```
+
+Useful options:
+
+```bash
+--wandb_entity ENTITY
+--wandb_mode offline
+--disable_wandb
+```
+
+The terminal also shows `tqdm` progress bars for training and evaluation. The training bar is step-based, so its ETA tracks optimizer steps.
 
 For multi-GPU:
 

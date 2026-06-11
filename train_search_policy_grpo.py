@@ -18,6 +18,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer, get_linear_schedule_with_warmup
+from tqdm.auto import tqdm
 
 
 def disable_deepspeed_nvtx() -> None:
@@ -855,6 +856,37 @@ def write_jsonl(path: Path, row: dict[str, Any]) -> None:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def init_wandb(args: argparse.Namespace, accelerator: Accelerator) -> Any | None:
+    if not accelerator.is_main_process or args.disable_wandb:
+        return None
+    try:
+        import wandb
+    except ImportError as exc:
+        raise RuntimeError("wandb logging requires `wandb`. Install it or pass --disable_wandb.") from exc
+
+    run_name = args.wandb_run_name.strip() or None
+    mode = args.wandb_mode.strip() or None
+    entity = args.wandb_entity.strip() or None
+    return wandb.init(
+        project=args.wandb_project,
+        entity=entity,
+        name=run_name,
+        mode=mode,
+        dir=args.output_dir,
+        config={key: value for key, value in vars(args).items() if isinstance(value, (str, int, float, bool, type(None)))},
+    )
+
+
+def log_wandb(wandb_run: Any | None, metrics: dict[str, Any], step: int, prefix: str) -> None:
+    if wandb_run is None:
+        return
+    payload: dict[str, Any] = {}
+    for key, value in metrics.items():
+        if isinstance(value, (int, float, bool)):
+            payload[f"{prefix}/{key}"] = value
+    wandb_run.log(payload, step=step)
+
+
 def save_checkpoint(accelerator: Accelerator, model: torch.nn.Module, tokenizer: Any, output_dir: Path, step: int) -> None:
     save_dir = output_dir / f"checkpoint-step-{step}"
     accelerator.wait_for_everyone()
@@ -889,7 +921,15 @@ def evaluate(
         local_examples = local_examples[: args.max_eval_examples]
     unwrapped = accelerator.unwrap_model(model)
     all_states: list[Trajectory] = []
-    for start in range(0, len(local_examples), args.eval_batch_size):
+    eval_range = range(0, len(local_examples), args.eval_batch_size)
+    eval_progress = tqdm(
+        eval_range,
+        desc=f"GRPO eval@{step}",
+        dynamic_ncols=True,
+        leave=False,
+        disable=not accelerator.is_main_process,
+    )
+    for start in eval_progress:
         batch = local_examples[start : start + args.eval_batch_size]
         states = rollout_batch(
             model=unwrapped,
@@ -904,6 +944,13 @@ def evaluate(
         for state in states:
             compute_reward(state, search_cost, args.reward_clip_min, args.reward_clip_max)
         all_states.extend(states)
+        if accelerator.is_main_process and all_states:
+            partial = aggregate_metrics(all_states)
+            eval_progress.set_postfix(
+                acc=f"{partial['overall_accuracy']:.3f}",
+                unk=f"{partial['unknown_rate']:.3f}",
+                search=f"{partial['avg_search_count']:.2f}",
+            )
     local_metrics = aggregate_metrics(all_states)
     local_count = torch.tensor([len(all_states)], dtype=torch.float32, device=accelerator.device)
     counts = accelerator.gather(local_count).sum().item()
@@ -985,6 +1032,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--logging_steps", type=int, default=1)
     parser.add_argument("--eval_steps", type=int, default=50)
     parser.add_argument("--save_steps", type=int, default=100)
+    parser.add_argument("--disable_wandb", action="store_true")
+    parser.add_argument("--wandb_project", default="SearchPolicyGRPO")
+    parser.add_argument("--wandb_entity", default="")
+    parser.add_argument("--wandb_run_name", default="")
+    parser.add_argument("--wandb_mode", default="")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
     if args.system_prompt_file:
@@ -1013,6 +1065,7 @@ def main() -> None:
     if accelerator.is_main_process:
         output_dir.mkdir(parents=True, exist_ok=True)
         (output_dir / "args.json").write_text(json.dumps(vars(args), indent=2, ensure_ascii=False), encoding="utf-8")
+    wandb_run = init_wandb(args, accelerator)
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path, trust_remote_code=args.trust_remote_code)
     if tokenizer.pad_token_id is None:
@@ -1092,128 +1145,156 @@ def main() -> None:
     global_step = 0
     last_metrics: dict[str, float] = {}
     model.train()
-    for epoch in range(args.num_train_epochs):
-        for batch in dataloader:
+    progress = tqdm(
+        total=total_steps,
+        initial=global_step,
+        desc="GRPO train",
+        dynamic_ncols=True,
+        disable=not accelerator.is_main_process,
+    )
+    try:
+        for epoch in range(args.num_train_epochs):
+            for batch in dataloader:
+                if args.max_steps and global_step >= args.max_steps:
+                    break
+                unwrapped = accelerator.unwrap_model(model)
+                with torch.no_grad():
+                    states = rollout_batch(
+                        model=unwrapped,
+                        tokenizer=tokenizer,
+                        examples=batch,
+                        retriever=retriever,
+                        args=args,
+                        device=accelerator.device,
+                        group_size=args.group_size,
+                        do_sample=True,
+                    )
+                for state in states:
+                    compute_reward(state, search_cost.value, args.reward_clip_min, args.reward_clip_max)
+                selected, advantages, skipped_groups = select_grpo_samples(states, args.group_size, args.advantage_epsilon)
+                train_metrics = aggregate_metrics(states)
+                if not selected:
+                    train_metrics["mean_reward"] = sum(s.reward for s in states) / max(1, len(states))
+                    train_metrics["selected_trajectories"] = 0.0
+                    train_metrics["skipped_groups"] = float(skipped_groups)
+                    train_metrics["search_cost_coef"] = search_cost.value
+                    if accelerator.is_main_process:
+                        row = {"step": global_step, "epoch": epoch, "split": "train_skip", **train_metrics}
+                        write_jsonl(output_dir / "metrics.jsonl", row)
+                        log_wandb(wandb_run, row, global_step, "train")
+                        progress.set_postfix(
+                            reward=f"{train_metrics['mean_reward']:.3f}",
+                            acc=f"{train_metrics['overall_accuracy']:.3f}",
+                            unk=f"{train_metrics['unknown_rate']:.3f}",
+                            skipped=int(skipped_groups),
+                        )
+                    search_cost.update(train_metrics)
+                    continue
+
+                with accelerator.accumulate(model):
+                    policy_logp, ref_logp, token_counts = trajectory_logprobs(
+                        policy_model=model,
+                        ref_model=ref_model,
+                        tokenizer=tokenizer,
+                        trajectories=selected,
+                        max_length=args.max_seq_length,
+                        micro_batch_size=args.logprob_micro_batch_size,
+                        device=accelerator.device,
+                    )
+                    if args.normalize_logprob_by_tokens:
+                        policy_objective_logp = policy_logp / token_counts
+                        ref_objective_logp = ref_logp / token_counts
+                    else:
+                        policy_objective_logp = policy_logp
+                        ref_objective_logp = ref_logp
+                    advantage_t = torch.tensor(advantages, dtype=policy_objective_logp.dtype, device=accelerator.device)
+                    sampled_kl = policy_objective_logp - ref_objective_logp
+                    objective = advantage_t * policy_objective_logp - args.beta_kl * sampled_kl
+                    loss = -objective.mean()
+                    accelerator.backward(loss)
+                    if accelerator.sync_gradients and args.max_grad_norm > 0:
+                        accelerator.clip_grad_norm_(model.parameters(), args.max_grad_norm)
+                    optimizer.step()
+                    scheduler.step()
+                    optimizer.zero_grad()
+
+                global_step += 1
+                progress.update(1)
+                kl_value = accelerator.gather(sampled_kl.detach().float().mean()).mean().item()
+                loss_value = accelerator.gather(loss.detach().float()).mean().item()
+                train_metrics["kl"] = kl_value
+                train_metrics["loss"] = loss_value
+                train_metrics["mean_reward"] = sum(s.reward for s in states) / max(1, len(states))
+                train_metrics["selected_trajectories"] = float(len(selected))
+                train_metrics["skipped_groups"] = float(skipped_groups)
+                train_metrics["search_cost_coef"] = search_cost.value
+                last_metrics = train_metrics
+
+                if accelerator.is_main_process:
+                    progress.set_postfix(
+                        loss=f"{loss_value:.3f}",
+                        reward=f"{train_metrics['mean_reward']:.3f}",
+                        acc=f"{train_metrics['overall_accuracy']:.3f}",
+                        unk=f"{train_metrics['unknown_rate']:.3f}",
+                        search=f"{train_metrics['avg_search_count']:.2f}",
+                    )
+
+                if accelerator.is_main_process and (global_step % args.logging_steps == 0):
+                    row = {"step": global_step, "epoch": epoch, "split": "train", **train_metrics}
+                    write_jsonl(output_dir / "metrics.jsonl", row)
+                    log_wandb(wandb_run, row, global_step, "train")
+                    write_jsonl(
+                        output_dir / "rollouts.jsonl",
+                        {
+                            "step": global_step,
+                            "examples": [
+                                {
+                                    **state.example.to_dict(),
+                                    "trajectory": state.trajectory,
+                                    "reward_components": state.reward_components,
+                                    "retrieved_doc_ids": state.retrieved_doc_ids,
+                                    "gold_evidence_hits": sorted(state.gold_evidence_hits),
+                                }
+                                for state in states
+                            ],
+                        },
+                    )
+                    progress.write(json.dumps(row, ensure_ascii=False))
+
+                if args.eval_steps > 0 and global_step % args.eval_steps == 0:
+                    eval_metrics = evaluate(
+                        model,
+                        tokenizer,
+                        eval_examples,
+                        retriever,
+                        args,
+                        accelerator,
+                        search_cost.value,
+                        global_step,
+                    )
+                    if eval_metrics:
+                        search_cost.update(eval_metrics)
+                        if accelerator.is_main_process:
+                            log_wandb(wandb_run, {"step": global_step, **eval_metrics}, global_step, "eval")
+                else:
+                    search_cost.update(train_metrics)
+
+                if args.save_steps > 0 and global_step % args.save_steps == 0:
+                    save_checkpoint(accelerator, model, tokenizer, output_dir, global_step)
+
             if args.max_steps and global_step >= args.max_steps:
                 break
-            unwrapped = accelerator.unwrap_model(model)
-            with torch.no_grad():
-                states = rollout_batch(
-                    model=unwrapped,
-                    tokenizer=tokenizer,
-                    examples=batch,
-                    retriever=retriever,
-                    args=args,
-                    device=accelerator.device,
-                    group_size=args.group_size,
-                    do_sample=True,
-                )
-            for state in states:
-                compute_reward(state, search_cost.value, args.reward_clip_min, args.reward_clip_max)
-            selected, advantages, skipped_groups = select_grpo_samples(states, args.group_size, args.advantage_epsilon)
-            train_metrics = aggregate_metrics(states)
-            if not selected:
-                if accelerator.is_main_process:
-                    row = {
-                        "step": global_step,
-                        "epoch": epoch,
-                        "split": "train",
-                        "skipped_groups": skipped_groups,
-                        "selected_trajectories": 0,
-                        "search_cost_coef": search_cost.value,
-                        **train_metrics,
-                    }
-                    write_jsonl(output_dir / "metrics.jsonl", row)
-                    print(json.dumps(row, ensure_ascii=False), flush=True)
-                search_cost.update(train_metrics)
-                continue
-
-            with accelerator.accumulate(model):
-                policy_logp, ref_logp, token_counts = trajectory_logprobs(
-                    policy_model=model,
-                    ref_model=ref_model,
-                    tokenizer=tokenizer,
-                    trajectories=selected,
-                    max_length=args.max_seq_length,
-                    micro_batch_size=args.logprob_micro_batch_size,
-                    device=accelerator.device,
-                )
-                if args.normalize_logprob_by_tokens:
-                    policy_objective_logp = policy_logp / token_counts
-                    ref_objective_logp = ref_logp / token_counts
-                else:
-                    policy_objective_logp = policy_logp
-                    ref_objective_logp = ref_logp
-                advantage_t = torch.tensor(advantages, dtype=policy_objective_logp.dtype, device=accelerator.device)
-                sampled_kl = policy_objective_logp - ref_objective_logp
-                objective = advantage_t * policy_objective_logp - args.beta_kl * sampled_kl
-                loss = -objective.mean()
-                accelerator.backward(loss)
-                if accelerator.sync_gradients and args.max_grad_norm > 0:
-                    accelerator.clip_grad_norm_(model.parameters(), args.max_grad_norm)
-                optimizer.step()
-                scheduler.step()
-                optimizer.zero_grad()
-
-            global_step += 1
-            kl_value = accelerator.gather(sampled_kl.detach().float().mean()).mean().item()
-            loss_value = accelerator.gather(loss.detach().float()).mean().item()
-            train_metrics["kl"] = kl_value
-            train_metrics["loss"] = loss_value
-            train_metrics["mean_reward"] = sum(s.reward for s in states) / max(1, len(states))
-            train_metrics["selected_trajectories"] = float(len(selected))
-            train_metrics["skipped_groups"] = float(skipped_groups)
-            train_metrics["search_cost_coef"] = search_cost.value
-            last_metrics = train_metrics
-
-            if accelerator.is_main_process and (global_step % args.logging_steps == 0):
-                row = {"step": global_step, "epoch": epoch, "split": "train", **train_metrics}
-                write_jsonl(output_dir / "metrics.jsonl", row)
-                write_jsonl(
-                    output_dir / "rollouts.jsonl",
-                    {
-                        "step": global_step,
-                        "examples": [
-                            {
-                                **state.example.to_dict(),
-                                "trajectory": state.trajectory,
-                                "reward_components": state.reward_components,
-                                "retrieved_doc_ids": state.retrieved_doc_ids,
-                                "gold_evidence_hits": sorted(state.gold_evidence_hits),
-                            }
-                            for state in states
-                        ],
-                    },
-                )
-                print(json.dumps(row, ensure_ascii=False), flush=True)
-
-            if args.eval_steps > 0 and global_step % args.eval_steps == 0:
-                eval_metrics = evaluate(
-                    model,
-                    tokenizer,
-                    eval_examples,
-                    retriever,
-                    args,
-                    accelerator,
-                    search_cost.value,
-                    global_step,
-                )
-                if eval_metrics:
-                    search_cost.update(eval_metrics)
-            else:
-                search_cost.update(train_metrics)
-
-            if args.save_steps > 0 and global_step % args.save_steps == 0:
-                save_checkpoint(accelerator, model, tokenizer, output_dir, global_step)
-
-        if args.max_steps and global_step >= args.max_steps:
-            break
+    finally:
+        progress.close()
 
     save_checkpoint(accelerator, model, tokenizer, output_dir, global_step)
     if accelerator.is_main_process:
         summary = {"step": global_step, "split": "final", **last_metrics}
         write_jsonl(output_dir / "metrics.jsonl", summary)
         print(json.dumps(summary, ensure_ascii=False), flush=True)
+        log_wandb(wandb_run, summary, global_step, "final")
+        if wandb_run is not None:
+            wandb_run.finish()
 
 
 if __name__ == "__main__":
