@@ -17,3 +17,2162 @@ config: {'data': {'tokenizer': None, 'train_files': 'outputs/verl_data/search_po
 2026-06-11 18:13:33,333 INFO    MainThread:378927 [wandb_run.py:_redirect():2442] Wrapping output streams.
 2026-06-11 18:13:33,333 INFO    MainThread:378927 [wandb_run.py:_redirect():2465] Redirects installed.
 2026-06-11 18:13:33,335 INFO    MainThread:378927 [wandb_init.py:init():1010] run started, returning control to user process
+2026-06-12 02:37:51,642 INFO    wandb-AsyncioManager-main:378927 [service_client.py:_forward_responses():122] [no run ID] Reached EOF.
+2026-06-12 02:37:51,643 INFO    wandb-AsyncioManager-main:378927 [mailbox.py:close():154] [no run ID] Closing mailbox, abandoning 2 handles.
+2026-06-12 02:37:51,643 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/run_messages.py", line 90, in loop
+    await asyncio_compat.race(
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 278, in race
+    async with open_task_group(race=True) as tg:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 240, in open_task_group
+    await task_group._wait_all(race=race, timeout=exit_timeout)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 180, in _wait_all
+    raise exc
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/run_messages.py", line 113, in _print_all
+    result = await handle.wait_async(timeout=None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/mailbox/mailbox_handle.py", line 127, in wait_async
+    response = await self._handle.wait_async(timeout=timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/mailbox/response_handle.py", line 123, in wait_async
+    raise HandleAbandonedError()
+wandb.sdk.mailbox.mailbox_handle.HandleAbandonedError
+2026-06-12 02:37:51,702 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,704 INFO    MainThread:378927 [wandb_run.py:_finish():2285] finishing run ymmm/SearchPolicyGRPO/9rlpj3hi
+2026-06-12 02:37:51,704 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,705 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,705 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,706 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,706 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,706 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,707 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,707 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,707 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,708 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,708 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,708 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,709 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,709 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,709 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,710 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,710 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,710 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,710 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,711 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,787 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,788 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,789 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,789 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,790 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,790 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,790 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,791 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,791 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,791 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,791 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,792 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,793 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,793 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,795 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,837 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,837 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,840 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,843 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,844 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,844 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,845 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,846 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,846 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,847 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,848 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,848 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,848 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,849 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,850 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,850 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,852 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,854 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,857 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,857 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,857 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,858 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,858 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,858 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,859 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,859 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,859 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,859 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,860 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,860 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,860 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,861 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,861 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,861 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,861 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,862 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,862 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,862 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,863 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,863 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,863 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,863 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,864 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,864 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,864 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,865 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,865 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,865 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,865 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,866 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,866 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,866 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,867 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,867 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,867 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,867 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,868 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,868 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,868 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,869 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,869 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,869 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,869 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,870 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,870 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,870 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,871 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,871 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,871 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,871 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,872 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,872 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,872 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,873 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,873 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,873 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,873 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,874 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,874 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,874 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,874 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,875 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,875 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,875 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,875 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,876 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,876 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,876 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,876 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,877 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,877 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,877 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,877 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,878 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,878 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,878 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,878 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,879 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,879 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,879 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,879 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,879 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,880 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,880 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,880 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,880 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,881 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,882 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,882 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,882 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,883 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,883 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,883 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,883 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,884 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,884 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,884 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,884 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,884 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,885 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,885 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,885 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,885 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,886 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,886 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,886 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,886 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
+2026-06-12 02:37:51,887 ERROR   wandb-AsyncioManager-main:378927 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 42, in publish
+    await self._send_server_request(request)
+  File "/venv/main/lib/python3.12/site-packages/wandb/sdk/lib/service/service_client.py", line 78, in _send_server_request
+    self._writer.write(header)
+  File "/usr/lib/python3.12/asyncio/streams.py", line 346, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 675, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <UnixTransport closed=True reading=False 0x7d11fbf32740>; the handler is closed
